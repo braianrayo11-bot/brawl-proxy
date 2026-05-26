@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 import requests
 import os
 
@@ -12,6 +12,11 @@ def get_player(tag):
     url = f"https://api.brawlstars.com/v1/players/{tag}"
     response = requests.get(url, headers=headers)
     return jsonify(response.json()), response.status_code
+
+@app.route("/ip")
+def get_ip():
+    ip = requests.get("https://api.ipify.org").text
+    return jsonify({"ip": ip})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
